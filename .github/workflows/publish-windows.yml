@@ -85,14 +85,14 @@ jobs:
           & "$env:WIX\bin\candle.exe" -dVersion="$(Get-Date -Format 'yy.MM.dd')" -dPath="./" -dSnmpProfilesPath="./config/profiles"  -ext WixUtilExtension -ext WixUIExtension ktranslate.wxs SnmpProfiles.wxs -arch x64 -nologo
           & "$env:WIX\bin\light.exe" ktranslate.wixobj SnmpProfiles.wixobj -out ktranslate.msi -ext WixUtilExtension  -ext WixUIExtension -nologo
 
-       - name: Sign Cert
-       - uses: DanaBear/code-sign-action@v4
-         with:
-           certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
-           password: ''
-           certificatesha1: '98b30a10ec4df0d3bfa0c7213b260b4536978647'
-           certificatename: 'ktranslate_kentik_com'
-           folder: './'
+      - name: Sign Cert
+      - uses: DanaBear/code-sign-action@v4
+        with:
+          certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
+          password: ''
+          certificatesha1: '98b30a10ec4df0d3bfa0c7213b260b4536978647'
+          certificatename: 'ktranslate_kentik_com'
+          folder: './'
 
       - name: Publish MSI
         uses: actions/upload-artifact@v2
