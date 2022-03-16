@@ -85,13 +85,15 @@ jobs:
           & "$env:WIX\bin\candle.exe" -dVersion="$(Get-Date -Format 'yy.MM.dd')" -dPath="./" -dSnmpProfilesPath="./config/profiles"  -ext WixUtilExtension -ext WixUIExtension ktranslate.wxs SnmpProfiles.wxs -arch x64 -nologo
           & "$env:WIX\bin\light.exe" ktranslate.wixobj SnmpProfiles.wixobj -out ktranslate.msi -ext WixUtilExtension  -ext WixUIExtension -nologo
 
+      - name: Create Code Signing Certificate
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_SIGNING_CERT }}'
+          certutil -decode certificate\certificate.txt certificate\certificate.pfx
+
       - name: Sign Cert
-        uses: DanaBear/code-sign-action@v4
-        with:
-          certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
-          password: '${{ secrets.WINDOWS_CERT_PASS }}'
-          certificatesha1: 'c1187beeabb31a8ce5ac8dfde55e52459562ab49'
-          folder: './'
+        run: |
+          & C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /t http://timestamp.verisign.com/scripts/timstamp.dll /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERT_PASS }}' .//ktranslate.msi
 
       - name: Publish MSI
         uses: actions/upload-artifact@v2
