@@ -9,6 +9,7 @@ on:
       - main
       - devwin
       - win-build-msi
+      - foo
 
 jobs:
   build:
