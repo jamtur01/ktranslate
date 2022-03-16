@@ -33,7 +33,7 @@ jobs:
 
       - name: Install cert
         run: |
-          echo ${{ secrets.WINDOWS_SIGNING_CERT }} | base64 -d > codesigning.pfx
+          echo '${{ secrets.WINDOWS_SIGNING_CERT }}' | base64 -d > codesigning.pfx
 
       - name: Cache Cert
         id: cache-cert
