@@ -90,7 +90,7 @@ jobs:
         with:
           certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
           password: '${{ secrets.WINDOWS_CERT_PASS }}'
-          certificatename: 'ktranslate_kentik_com'
+          certificatesha1: 'c1187beeabb31a8ce5ac8dfde55e52459562ab49'
           folder: './'
 
       - name: Publish MSI
