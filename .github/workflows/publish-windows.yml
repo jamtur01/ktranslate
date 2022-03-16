@@ -89,9 +89,7 @@ jobs:
         uses: DanaBear/code-sign-action@v4
         with:
           certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
-          password: ''
-          certificatesha1: '98b30a10ec4df0d3bfa0c7213b260b4536978647'
-          certificatename: 'ktranslate_kentik_com'
+          password: 'foo'
           folder: './'
 
       - name: Publish MSI
