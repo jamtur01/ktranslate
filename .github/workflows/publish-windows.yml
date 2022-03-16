@@ -89,7 +89,6 @@ jobs:
         uses: DanaBear/code-sign-action@v4
         with:
           certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
-          password: 'foo'
           folder: './'
 
       - name: Publish MSI
