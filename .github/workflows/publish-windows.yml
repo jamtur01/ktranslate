@@ -86,7 +86,7 @@ jobs:
           & "$env:WIX\bin\light.exe" ktranslate.wixobj SnmpProfiles.wixobj -out ktranslate.msi -ext WixUtilExtension  -ext WixUIExtension -nologo
 
       - name: Sign Cert
-      - uses: DanaBear/code-sign-action@v4
+        uses: DanaBear/code-sign-action@v4
         with:
           certificate: '${{ secrets.WINDOWS_SIGNING_CERT }}'
           password: ''
