@@ -20,9 +20,9 @@ jobs:
           Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_SIGNING_CERT }}'
           certutil -decode certificate\certificate.txt certificate\certificate.pfx
           certutil -f -p ${{ secrets.WINDOWS_CERT_PASS }} -importpfx certificate\certificate.pfx
-          certutil -repairstore
+          certutil -repairstore my ktranslate.kentik.com
           certutil -view
-          certutil -store my ktranslate
+          certutil -store my ktranslate.kentik.com
 
 
       - name: Sign Cert
@@ -31,6 +31,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@v2
         with:
