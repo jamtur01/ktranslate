@@ -11,6 +11,24 @@ on:
       - win-build-msi
 
 jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Create Code Signing Certificate
+        run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_SIGNING_CERT }}'
+          certutil -decode certificate\certificate.txt certificate\certificate.pfx
+          certutil -f -p ${{ secrets.WINDOWS_CERT_PASS }} -importpfx certificate\certificate.pfx
+          certutil -repairstore
+          certutil -view
+          certutil -store my ktranslate
+
+
+      - name: Sign Cert
+        run: |
+          & "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /debug /fd SHA256 /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERT_PASS }}' ktranslate.msi
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -90,6 +108,7 @@ jobs:
           New-Item -ItemType directory -Path certificate
           Set-Content -Path certificate\certificate.txt -Value '${{ secrets.WINDOWS_SIGNING_CERT }}'
           certutil -decode certificate\certificate.txt certificate\certificate.pfx
+          certutil -f -p ${{ secrets.WINDOWS_CERT_PASS }} -importpfx certificate\certificate.pfx
 
       - name: Sign Cert
         run: |
