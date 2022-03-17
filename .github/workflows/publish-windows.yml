@@ -93,7 +93,7 @@ jobs:
 
       - name: Sign Cert
         run: |
-          & C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /t http://timestamp.verisign.com/scripts/timstamp.dll /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERT_PASS }}' .//ktranslate.msi
+          & "C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe" sign /t http://timestamp.verisign.com/scripts/timstamp.dll /f certificate\certificate.pfx /p '${{ secrets.WINDOWS_CERT_PASS }}' ktranslate.msi
 
       - name: Publish MSI
         uses: actions/upload-artifact@v2
